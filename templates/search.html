@@ -34,6 +34,81 @@
         </form>
     </div>
 
+    <div class="container">
+    <!-- ...existing form code... -->
+
+    {% if tokens %}
+    <div class="mt-5">
+        <table>
+            <tr>
+                <th>Model Tokenizer output: </th>
+                <td>{{ tokens|join(', ') }}</td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if vector_results %}
+    <div class="mt-5">
+        <h2>Results Vector Search</h2>
+        <p>QTime:{{vector_results['qtime']}}</p>
+        <p>Total Results:{{vector_results['hits']}}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Score</th>
+                    <th>Title</th>
+                    <th>Feed</th>
+                    <th>Created_At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in vector_results %}
+                <tr>
+                    <td>{{ result.id }}</td>
+                    <td>{{ result.score }}</td>
+                    <td>{{ result.feed }}</td>
+                    <td>{{ result.title }}</td>
+                    <td>{{ result.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if bm25_results %}
+    <div class="mt-5">
+        <h2>Results BM25</h2>
+        <p>QTime:{{bm25_results['qtime']}}</p>
+        <p>Total Results:{{bm25_results['hits']}}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Score</th>
+                    <th>Title</th>
+                    <th>Feed</th>
+                    <th>Created_At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in bm25_results %}
+                <tr>
+                    <td>{{ result.id }}</td>
+                    <td>{{ result.score }}</td>
+                    <td>{{ result.feed }}</td>
+                    <td>{{ result.title }}</td>
+                    <td>{{ result.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
     <!-- JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
