@@ -16,28 +16,31 @@ service = SearchService(app.config, model_loader)
 @app.route('/', methods=['GET', 'POST'])
 def search():
     search_type = ""
-    filters = "BM25"
+    date_filter = ''
     query = ""
     tokens = []
     bm25_results = []
     vector_results = []
+    hybrid_results = []
 
     if request.method == 'POST':
         query = request.form.get('query')
         search_type = request.form.get('search_type')
-        filters = request.form.get('filters')
+        date_filter = request.form.get('date_filter')
 
-        bm25_results = service.bm25_search(query)
-        tokens, vector_results = service.vector_search(query)
+        bm25_results = service.bm25_search(query, date_filter)
+        tokens, vector_results = service.vector_search(query, date_filter)
+        hybrid_results = service.hybrid_search(query, date_filter)
 
     return render_template(
         'search.html',
         query=query,
         search_type=search_type,
-        filters=filters,
+        date_filter=date_filter,
         bm25_results=bm25_results,
         tokens=tokens,
-        vector_results=vector_results
+        vector_results=vector_results,
+        hybrid_results=hybrid_results
     )
 
 if __name__ == '__main__':
